@@ -22,12 +22,17 @@ import {
 } from './config.js'
 
 requireEnv('PPIO_API_KEY')
+requireEnv('PPIO_DOMAIN')
 
 const tag = optionalEnv('PPIO_BUILD_TAG')
 const target = tag ? `${TEMPLATE_NAME}:${tag}` : TEMPLATE_NAME
 
 const template = Template()
   .fromNodeImage('22')
+    .setEnvs({
+        "http_proxy":"http://10.97.197.11:1081",
+        "https_proxy":"http://10.97.197.11:1081"
+    })
   // What the agent needs to do real work in the workspace: git, a Python
   // runtime, ripgrep (codex's search backend), and file/PDF inspection.
   .aptInstall([
